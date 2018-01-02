@@ -1,10 +1,9 @@
 package com.zhmcode.hadoop.friend;
 
-import com.zhmcode.hadoop.combiner.WordcountCombiner;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -64,22 +63,21 @@ public class FriendDriver {
 		Job job = Job.getInstance(conf);
 
 		//指定jar包路径
-		job.setJarByClass(WordcountCombiner.class);
+		job.setJarByClass(FriendDriver.class);
 
 		//指定mapper与reduer类
 		job.setMapperClass( FriendMapper.class);
 		job.setReducerClass(FriendReduce.class);
 
 
-		job.setCombinerClass(WordcountCombiner.WordcountReducer.class);
 
 		//mapper输出类型
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(IntWritable.class);
+		job.setMapOutputValueClass(Text.class);
 
 		//reducer输出类型
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
+		job.setOutputValueClass(Text.class);
 
 		// hdfs 文件路径
 		Path inputPath = new Path("hdfs://mini1:9000/friend/input");
